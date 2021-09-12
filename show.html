@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>show</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta charset="utf-8">
+</head>
+<body class="w3-grey">
+<div class="w3-container w3-grey " id="shows">
+	
+	
+
+</div>
+
+
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+<script src="config.js"></script>	
+<script >
+	var db = firebase.firestore();
+	var url_up = window.location.href;
+	var title = new URL(url_up);
+	var tit = title.searchParams.get('bal');
+	
+	var docRef = db.collection("blog").doc(tit);
+
+		docRef.get().then((doc) => {
+		    if (doc.exists) {
+		    	var data = doc.data();
+		    	var dv = document.getElementById('shows');
+		    	dv.innerHTML = "<br><br><div class='w3-content w3-grey'><div class='w3-padding w3-white' ><br><h1>"+data['Title']+"</h1><small>Publish Date:"+data['Date']+"</small><p>"+data['Summery']+"</p><p>"+data['Content']+"</p><br><br></div></div><br><br>";
+
+
+			
+		
+
+		    } else {
+		        // If fucked UP
+		        console.log("No such document!");
+		    }
+		}).catch((error) => {
+		    console.log("Error getting document:", error);
+		});
+
+</script>
+</body>
+</html>

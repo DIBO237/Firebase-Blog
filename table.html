@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Table</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta charset="utf-8">
+</head>
+<body><br>
+<div class="w3-container" >
+	<table class="w3-table-all" id="showw">
+		<thead>
+	      <tr class="w3-red">
+	        <th>Title</th>
+	        <th>Date</th>
+	        <th>Delete</th>
+	        <th>Edit</th>
+	      </tr>
+	    </thead>
+		
+	</table>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+<script src="config.js"></script>
+<script type="text/javascript">
+	var db = firebase.firestore();
+	db.collection("blog").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        var data = doc.data();
+      if (doc.id) {
+        var tit = data['Title'];
+    	var dvv = document.getElementById('showw');
+    	var tr = document.createElement('tr');
+    	var td = document.createElement('td');
+    	var td1 = document.createElement('td');
+    	var td2 = document.createElement('td');
+    	var td3 = document.createElement('td');
+    	td.innerHTML= data['Title'];
+    	td1.innerHTML= data['Date'];
+    	td2.innerHTML= "<a href='delete.html?del="+doc.id+"'><button class='w3-button w3-red'>Delete</button></a>";
+    	td3.innerHTML= "<a href='edit.html?edit="+doc.id+"'><button class='w3-button w3-red'>Edit</button></a>";
+
+    	tr.appendChild(td);
+    	tr.appendChild(td1);
+    	tr.appendChild(td2);
+    	tr.appendChild(td3);
+    	dvv.appendChild(tr);
+
+        
+    }else {
+
+       var hes =  document.getElementById('showw');
+
+       hes.innerHTML = "<tr><td>No Data Found</td></tr>";
+
+
+    }});
+});
+
+</script>
+</body>
+</html>

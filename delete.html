@@ -1,0 +1,22 @@
+<meta charset="utf-8">
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+<script src="config.js"></script>	
+<script >
+	var db = firebase.firestore();
+	var url_up = window.location.href;
+	var title = new URL(url_up);
+	var tit = title.searchParams.get('del');
+	console.log(tit);
+
+	if (db.collection('blog').doc(tit).delete()) {
+		alert("Blog Deleted Succesfully");
+		setInterval(function (){
+            window.location.replace('table.html');
+		} , 470);
+	}
+	else{
+
+		alert("Blog Delete failed");
+	}
+</script>	

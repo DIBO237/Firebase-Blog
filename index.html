@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Showblog</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta charset="utf-8">
+</head>
+<body>
+<div class="w3-container " id="show" >
+	
+</div>
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+<script src="config.js"></script>
+<script type="text/javascript">
+	
+
+	var db = firebase.firestore();
+	db.collection("blog").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+
+        var data = doc.data();
+        var all = '<br><br><div class="w3-auto"  ><div class="  w3-auto" ><div class="w3-container w3-content w3-card w3-auto" style="width: 670px; padding: 10px "><center><h1>'+data['Title']+'</h1></center><small>Published on: '+data['Date']+'</small><center><img src="" width="95%" ></center><div class="w3-content w3-container"><p>'+data['Summery']+'</p><center><a href="show.html?bal='+doc.id+'"><button class="w3-button w3-red">Read More</button></a></center></div></div></div></div><br><br>';
+
+        var dv = document.getElementById('show');
+       var title = document.createElement('div');
+       title.innerHTML = all;
+       dv.appendChild(title); 
+        
+    });
+});
+</script>
+</body>
+</html>

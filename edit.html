@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit Blog</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta charset="utf-8">
+    <style type="text/css">
+    	.w3-cell{
+
+    		margin: 10px
+    	}
+    </style>
+</head>
+<body>
+<div class="w3-container">
+	<div class="w3-content ">
+		<div class="w3-panel w3-red w3-center">
+			<h1>Edit Blog</h1>
+		</div>
+		<div class="w3-container" >
+			<label>Title</label>
+			<input class="w3-input" type="text" id="titl"><br>
+            <label>Summery</label>
+			<input class="w3-input" type="text" id="summerys"><br>
+			<label>Content</label>
+			<textarea class="w3-input" id="contentt" rows="5"></textarea><br><br>
+			
+		</div>
+		<div class="w3-cell-row w3-center">
+           <button class="w3-cell w3-button w3-red " type="submit" onclick="edit();">Update</button>
+           <button class="w3-cell w3-button w3-red" onclick="window.location.replace('table.html');" >Go Back</button>
+       </div>
+	</div>
+	
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.6/firebase-firestore.js"></script>
+<script src="config.js"></script>	
+<script >
+	var db = firebase.firestore();
+	var url_up = window.location.href;
+	var title = new URL(url_up);
+	var tit = title.searchParams.get('edit');
+	
+	var docRef = db.collection("blog").doc(tit);
+    var titl = document.getElementById('titl');
+    var summerys = document.getElementById('summerys');
+    var contentt = document.getElementById('contentt');
+
+		docRef.get().then((doc) => {
+		    if (doc.exists) {
+		    	var data = doc.data();
+	            titl.value = data['Title'];
+	            summerys.value = data['Summery'];
+	            contentt.value = data['Content']; 	         
+
+
+		    } else {
+		        // If fucked UP
+		        console.log("No such document!");
+		    }
+		}).catch((error) => {
+		    console.log("Error getting document:", error);
+		});
+
+	function edit() {
+
+		var tits = document.getElementById('titl').value;
+		var sums = document.getElementById('summerys').value;
+		var cont = document.getElementById('contentt').value;
+
+		
+			if (tit!=0 && sums!= 0 && cont!=0) {
+				  
+				var conn = new Date();
+				var year= conn.getFullYear();
+				var month= conn.getMonth() + 1;
+				var day= conn.getDate();
+				var date = day +'/'+month+'/'+year;
+		    	var dat = {
+							Title: tits,
+							Summery: sums,
+							Content: cont,
+							Date: date  };
+					   db.collection('blog').doc(tit).update(dat);
+					   alert('Updated Succesfully !!');
+					   setInterval(function(){ window.location.replace('table.html'); }, 500);  
+
+		         }
+
+		    else{
+
+		    	alert('Fields are Empty !! ');
+		    }
+		}
+	
+	
+
+</script>
+</body>
+</html>
